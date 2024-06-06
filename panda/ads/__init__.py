@@ -46,7 +46,8 @@ class Pandas:
         response_code, response_msg, response_body = -1, str(), dict()
         try:
             payload["access_token"] = self.__token
-            payload["req_header"]["search_id"] = str(uuid.uuid4())
+            # Request must with search_id, so we can use uuid model to generate uuid
+            payload.setdefault("req_header", {}).update({"search_id": str(uuid.uuid4())})
             # Create an asynchronous HTTP client session with SSL/TLS support and a specified timeout
             async with ClientSession(connector=TCPConnector(ssl=self.__is_ssl), timeout=self.__timeout) as session:
                 # Send a GET request to the specified URL with parameters, headers, and proxies
