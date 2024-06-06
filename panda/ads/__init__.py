@@ -1,4 +1,6 @@
 import traceback
+import uuid
+
 from aiohttp import (ClientSession, ClientTimeout, TCPConnector)
 from typing import Tuple, Literal
 
@@ -44,6 +46,7 @@ class Pandas:
         response_code, response_msg, response_body = -1, str(), dict()
         try:
             payload["access_token"] = self.__token
+            payload["req_header"] = str(uuid.uuid4())
             # Create an asynchronous HTTP client session with SSL/TLS support and a specified timeout
             async with ClientSession(connector=TCPConnector(ssl=self.__is_ssl), timeout=self.__timeout) as session:
                 # Send a GET request to the specified URL with parameters, headers, and proxies
